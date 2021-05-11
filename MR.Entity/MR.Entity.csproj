@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="BaseClass.cs" />
     <Compile Include="Company.cs" />
+    <Compile Include="Group.cs" />
     <Compile Include="MachineryCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

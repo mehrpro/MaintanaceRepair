@@ -1,36 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MR.Entity
 {
-    /// <summary>
-    /// شرکت ها و گروه های تولیدی
-    /// </summary>
-    public class Company : BaseClass<int>
+    public class Group : BaseClass<int>
     {
-        public Company()
+        public Group()
         {
             Id = new int();
             Registered = DateTime.Now;
             IsActive = true;
 
-            this.Groups = new HashSet<Group>();
+
             this.MachineryCodes = new HashSet<MachineryCode>();
         }
 
+
         [Required]
         [StringLength(250)]
-        public string CompanyName { get; set; }
+        public string GroupName { get; set; }
+
+
         [StringLength(250)]
         public string Description { get; set; }
 
+        public int CompanyID { get; set; }
+        [ForeignKey("CompanyID")]
+        public Company Company { get; set; }
+
+
 
         public virtual ICollection<MachineryCode> MachineryCodes { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
-
-
 
     }
 }
