@@ -14,10 +14,10 @@ namespace MR.Entity
             IsActive = true;
         }
 
-
+        [Required]
         [StringLength(200)]
         public string Machinery { get; set; }
-        
+
 
         public int CompanyID { get; set; }
         public int GroupID { get; set; }
