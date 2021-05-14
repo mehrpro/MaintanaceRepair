@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.XtraEditors;
 
-namespace MaintanaceRepair
+namespace MaintanaceRepair.Forms.Coding
 {
-    public partial class Form1 : Form
+    public partial class CompanyForm : XtraForm
     {
-        public Form1()
+        public CompanyForm()
         {
             InitializeComponent();
         }

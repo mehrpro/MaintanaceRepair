@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MaintanceRepairDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="CompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Company" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Entities">
+          <Key>
+            <PropertyRef Name="EntityID" />
+          </Key>
+          <Property Name="EntityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyID_FK" Type="int" Nullable="false" />
+          <Property Name="GroupsID_FK" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Titel" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupTitle" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Machineries">
+          <Key>
+            <PropertyRef Name="MachineryID" />
+          </Key>
+          <Property Name="MachineryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MachineryTitel" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="EntitiesID_FK" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Entities_Companies">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="Entities" Type="Self.Entities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="Entities">
+              <PropertyRef Name="CompanyID_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entities_Groups">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="Entities" Type="Self.Entities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Entities">
+              <PropertyRef Name="GroupsID_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Machineries_Entities">
+          <End Role="Entities" Type="Self.Entities" Multiplicity="1" />
+          <End Role="Machineries" Type="Self.Machineries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entities">
+              <PropertyRef Name="EntityID" />
+            </Principal>
+            <Dependent Role="Machineries">
+              <PropertyRef Name="EntitiesID_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MaintanceRepairDBModelStoreContainer">
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Entities" EntityType="Self.Entities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Machineries" EntityType="Self.Machineries" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Entities_Companies" Association="Self.FK_Entities_Companies">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Entities" EntitySet="Entities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entities_Groups" Association="Self.FK_Entities_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Entities" EntitySet="Entities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Machineries_Entities" Association="Self.FK_Machineries_Entities">
+            <End Role="Entities" EntitySet="Entities" />
+            <End Role="Machineries" EntitySet="Machineries" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MaintanceRepairDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Company1" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Entities" Relationship="Self.FK_Entities_Companies" FromRole="Companies" ToRole="Entities" />
+        </EntityType>
+        <EntityType Name="Entity">
+          <Key>
+            <PropertyRef Name="EntityID" />
+          </Key>
+          <Property Name="EntityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyID_FK" Type="Int32" Nullable="false" />
+          <Property Name="GroupsID_FK" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Titel" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Entities_Companies" FromRole="Entities" ToRole="Companies" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_Entities_Groups" FromRole="Entities" ToRole="Groups" />
+          <NavigationProperty Name="Machineries" Relationship="Self.FK_Machineries_Entities" FromRole="Entities" ToRole="Machineries" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Entities" Relationship="Self.FK_Entities_Groups" FromRole="Groups" ToRole="Entities" />
+        </EntityType>
+        <EntityType Name="Machinery">
+          <Key>
+            <PropertyRef Name="MachineryID" />
+          </Key>
+          <Property Name="MachineryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MachineryTitel" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EntitiesID_FK" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Entity" Relationship="Self.FK_Machineries_Entities" FromRole="Machineries" ToRole="Entities" />
+        </EntityType>
+        <Association Name="FK_Entities_Companies">
+          <End Role="Companies" Type="Self.Company" Multiplicity="1" />
+          <End Role="Entities" Type="Self.Entity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="Entities">
+              <PropertyRef Name="CompanyID_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entities_Groups">
+          <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+          <End Role="Entities" Type="Self.Entity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Entities">
+              <PropertyRef Name="GroupsID_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Machineries_Entities">
+          <End Role="Entities" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Machineries" Type="Self.Machinery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entities">
+              <PropertyRef Name="EntityID" />
+            </Principal>
+            <Dependent Role="Machineries">
+              <PropertyRef Name="EntitiesID_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MaintanceRepairDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Entities" EntityType="Self.Entity" />
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="Machineries" EntityType="Self.Machinery" />
+          <AssociationSet Name="FK_Entities_Companies" Association="Self.FK_Entities_Companies">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Entities" EntitySet="Entities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entities_Groups" Association="Self.FK_Entities_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Entities" EntitySet="Entities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Machineries_Entities" Association="Self.FK_Machineries_Entities">
+            <End Role="Entities" EntitySet="Entities" />
+            <End Role="Machineries" EntitySet="Machineries" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MaintanceRepairDBModelStoreContainer" CdmEntityContainer="MaintanceRepairDBEntities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="MaintanceRepairDBModel.Company">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Company1" ColumnName="Company" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Entities">
+            <EntityTypeMapping TypeName="MaintanceRepairDBModel.Entity">
+              <MappingFragment StoreEntitySet="Entities">
+                <ScalarProperty Name="EntityID" ColumnName="EntityID" />
+                <ScalarProperty Name="CompanyID_FK" ColumnName="CompanyID_FK" />
+                <ScalarProperty Name="GroupsID_FK" ColumnName="GroupsID_FK" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Titel" ColumnName="Titel" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="MaintanceRepairDBModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="GroupTitle" ColumnName="GroupTitle" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Machineries">
+            <EntityTypeMapping TypeName="MaintanceRepairDBModel.Machinery">
+              <MappingFragment StoreEntitySet="Machineries">
+                <ScalarProperty Name="MachineryID" ColumnName="MachineryID" />
+                <ScalarProperty Name="MachineryTitel" ColumnName="MachineryTitel" />
+                <ScalarProperty Name="EntitiesID_FK" ColumnName="EntitiesID_FK" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
